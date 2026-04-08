@@ -1,0 +1,484 @@
+[gd_scene format=3 uid="uid://cgxvumm8npjid"]
+
+[ext_resource type="Script" uid="uid://bhfvl3d08xfr3" path="res://scripts/Main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://c8av6e2xj4of2" path="res://scenes/Player.tscn" id="2_player"]
+[ext_resource type="AudioStream" uid="uid://br0bt7vcdnxo" path="res://assets/sounds/1.wav" id="4_1"]
+[ext_resource type="AudioStream" uid="uid://5hv6s7c1l0g2" path="res://assets/sounds/2.wav" id="5_2"]
+[ext_resource type="AudioStream" uid="uid://bvo0pv8bibsup" path="res://assets/sounds/3.wav" id="6_3"]
+[ext_resource type="AudioStream" uid="uid://bna3yr0x8qgg6" path="res://assets/sounds/fight.wav" id="7_fight"]
+[ext_resource type="AudioStream" uid="uid://odkq3lkvgait" path="res://assets/sounds/p1_wins.wav" id="8_p1"]
+[ext_resource type="AudioStream" uid="uid://o6ofkw5roqnh" path="res://assets/sounds/p2_wins.wav" id="9_p2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(2000, 100)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health_bg"]
+bg_color = Color(0.15, 0.15, 0.15, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_help"]
+bg_color = Color(0.05, 0.05, 0.05, 0.85)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.3, 0.35, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="MainLevel" type="Node2D" unique_id=1033657544]
+process_mode = 3
+script = ExtResource("1_main")
+
+[node name="Background" type="ColorRect" parent="." unique_id=543794630]
+offset_left = -2000.0
+offset_top = -1000.0
+offset_right = 2000.0
+offset_bottom = 500.0
+color = Color(0.2, 0.2, 0.25, 1)
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=263055513]
+process_mode = 1
+position = Vector2(0, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=2091520919]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="ColorRect" type="ColorRect" parent="Floor" unique_id=507224329]
+offset_left = -1000.0
+offset_top = -50.0
+offset_right = 1000.0
+offset_bottom = 50.0
+color = Color(0.18, 0.18, 0.18, 1)
+
+[node name="Player1" parent="." unique_id=94148998 instance=ExtResource("2_player")]
+process_mode = 1
+position = Vector2(-200, 250)
+
+[node name="Player2" parent="." unique_id=170959313 instance=ExtResource("2_player")]
+process_mode = 1
+position = Vector2(200, 250)
+player_index = 2
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=703446316]
+position = Vector2(0, 26)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=33524358]
+
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1666414942]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CoinDisplay" type="Label" parent="CanvasLayer/UI" unique_id=1280221532]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -500.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+text = "Coins: 0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HealthBars" type="HBoxContainer" parent="CanvasLayer/UI" unique_id=1947522420]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 50.0
+offset_top = 30.0
+offset_right = -50.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_constants/separation = 100
+
+[node name="P1Health" type="ProgressBar" parent="CanvasLayer/UI/HealthBars" unique_id=911898724]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_health_bg")
+value = 100.0
+show_percentage = false
+
+[node name="P1Label" type="Label" parent="CanvasLayer/UI/HealthBars/P1Health" unique_id=1275030039]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "1 P1"
+vertical_alignment = 1
+
+[node name="P2Health" type="ProgressBar" parent="CanvasLayer/UI/HealthBars" unique_id=1042538552]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_health_bg")
+value = 100.0
+fill_mode = 1
+show_percentage = false
+
+[node name="P2Label" type="Label" parent="CanvasLayer/UI/HealthBars/P2Health" unique_id=643610274]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "2 P2"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="AnnouncerLabel" type="Label" parent="CanvasLayer/UI" unique_id=1082876968]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -100.0
+offset_right = 400.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainMenuOverlay" type="Panel" parent="CanvasLayer/UI" unique_id=795276414]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_help")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/MainMenuOverlay" unique_id=410520644]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="StartNewGameButton" type="Button" parent="CanvasLayer/UI/MainMenuOverlay/VBoxContainer" unique_id=1044967239]
+layout_mode = 2
+text = "NEW GAME"
+
+[node name="BotfightButton" type="Button" parent="CanvasLayer/UI/MainMenuOverlay/VBoxContainer" unique_id=988738942]
+layout_mode = 2
+text = "BOTFIGHT"
+
+[node name="StoreButton" type="Button" parent="CanvasLayer/UI/MainMenuOverlay/VBoxContainer" unique_id=802915114]
+layout_mode = 2
+text = "STORE"
+
+[node name="SettingsButton" type="Button" parent="CanvasLayer/UI/MainMenuOverlay/VBoxContainer" unique_id=227964863]
+layout_mode = 2
+text = "SETTINGS"
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/UI/MainMenuOverlay/VBoxContainer" unique_id=305455356]
+layout_mode = 2
+text = "QUIT"
+
+[node name="NameInputOverlay" type="Panel" parent="CanvasLayer/UI" unique_id=860121046]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_help")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/NameInputOverlay" unique_id=1482258247]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="CanvasLayer/UI/NameInputOverlay/VBoxContainer" unique_id=944108553]
+layout_mode = 2
+text = "Enter Player Names"
+horizontal_alignment = 1
+
+[node name="P1NameInput" type="LineEdit" parent="CanvasLayer/UI/NameInputOverlay/VBoxContainer" unique_id=281404351]
+layout_mode = 2
+placeholder_text = "Player 1 Name"
+
+[node name="P2NameInput" type="LineEdit" parent="CanvasLayer/UI/NameInputOverlay/VBoxContainer" unique_id=475831798]
+layout_mode = 2
+placeholder_text = "Player 2 Name"
+
+[node name="StartButton" type="Button" parent="CanvasLayer/UI/NameInputOverlay/VBoxContainer" unique_id=355494156]
+layout_mode = 2
+text = "START FIGHT"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/UI/NameInputOverlay/VBoxContainer" unique_id=482035928]
+layout_mode = 2
+text = "BACK TO MENU"
+
+[node name="BotDifficultyOverlay" type="Panel" parent="CanvasLayer/UI" unique_id=703172067]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_help")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/BotDifficultyOverlay" unique_id=1981079049]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="CanvasLayer/UI/BotDifficultyOverlay/VBoxContainer" unique_id=779618775]
+layout_mode = 2
+text = "SELECT BOT DIFFICULTY"
+horizontal_alignment = 1
+
+[node name="EasyButton" type="Button" parent="CanvasLayer/UI/BotDifficultyOverlay/VBoxContainer" unique_id=1914628589]
+layout_mode = 2
+text = "EASY"
+
+[node name="MediumButton" type="Button" parent="CanvasLayer/UI/BotDifficultyOverlay/VBoxContainer" unique_id=561163427]
+layout_mode = 2
+text = "MEDIUM"
+
+[node name="HardButton" type="Button" parent="CanvasLayer/UI/BotDifficultyOverlay/VBoxContainer" unique_id=1877307070]
+layout_mode = 2
+text = "HARD"
+
+[node name="BossButton" type="Button" parent="CanvasLayer/UI/BotDifficultyOverlay/VBoxContainer" unique_id=401779276]
+layout_mode = 2
+text = "BOSS"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/UI/BotDifficultyOverlay/VBoxContainer" unique_id=1932522014]
+layout_mode = 2
+text = "BACK"
+
+[node name="InfoOverlay" type="Panel" parent="CanvasLayer/UI" unique_id=671055087]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_help")
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/UI/InfoOverlay" unique_id=1931047510]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="InfoLabel" type="Label" parent="CanvasLayer/UI/InfoOverlay/VBox" unique_id=866741576]
+layout_mode = 2
+text = "COMING SOON"
+horizontal_alignment = 1
+
+[node name="CloseInfoButton" type="Button" parent="CanvasLayer/UI/InfoOverlay/VBox" unique_id=1600763402]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "BACK"
+
+[node name="HelpOverlay" type="Panel" parent="CanvasLayer/UI" unique_id=887224615]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_help")
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/HelpOverlay" unique_id=2007691165]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "CONTROLS
+
+Player 1:
+A/D - Move
+W - Jump
+F - Attack
+
+Player 2:
+Arrows - Move
+Up - Jump
+L - Attack
+
+Press H to toggle this menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HelpHint" type="Label" parent="CanvasLayer/UI" unique_id=1250874550]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -174.0
+offset_top = 70.0
+offset_right = -50.0
+offset_bottom = 93.0
+grow_horizontal = 0
+text = "Press H for Help"
+horizontal_alignment = 2
+
+[node name="SettingsOverlay" type="Panel" parent="CanvasLayer/UI" unique_id=1514884105]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_help")
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/UI/SettingsOverlay" unique_id=162730894]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/UI/SettingsOverlay/VBox" unique_id=1849056731]
+layout_mode = 2
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="ScreamsCheck" type="CheckBox" parent="CanvasLayer/UI/SettingsOverlay/VBox" unique_id=431899628]
+layout_mode = 2
+button_pressed = true
+text = "Screams"
+
+[node name="BloodCheck" type="CheckBox" parent="CanvasLayer/UI/SettingsOverlay/VBox" unique_id=1703747091]
+layout_mode = 2
+button_pressed = true
+text = "Blood FX (Pixel)"
+
+[node name="SFXCheck" type="CheckBox" parent="CanvasLayer/UI/SettingsOverlay/VBox" unique_id=1470529598]
+layout_mode = 2
+button_pressed = true
+text = "Sound Effects"
+
+[node name="BackButton" type="Button" parent="CanvasLayer/UI/SettingsOverlay/VBox" unique_id=420286655]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "BACK"
+
+[node name="Audio" type="Node" parent="." unique_id=924970493]
+
+[node name="Voice3" type="AudioStreamPlayer" parent="Audio" unique_id=1423605519]
+stream = ExtResource("6_3")
+
+[node name="Voice2" type="AudioStreamPlayer" parent="Audio" unique_id=2028096771]
+stream = ExtResource("5_2")
+
+[node name="Voice1" type="AudioStreamPlayer" parent="Audio" unique_id=1523486544]
+stream = ExtResource("4_1")
+
+[node name="VoiceFight" type="AudioStreamPlayer" parent="Audio" unique_id=1731249864]
+stream = ExtResource("7_fight")
+
+[node name="VoiceP1Wins" type="AudioStreamPlayer" parent="Audio" unique_id=1996892023]
+stream = ExtResource("8_p1")
+
+[node name="VoiceP2Wins" type="AudioStreamPlayer" parent="Audio" unique_id=1710292970]
+stream = ExtResource("9_p2")
